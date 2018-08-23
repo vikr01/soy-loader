@@ -12,7 +12,7 @@
 		"url": "https://github.com/bendman/soy-loader/issues"
 	},
 	"version": "0.3.0",
-	"main": "index.js",
+	"main": "dist/index.js",
 	"scripts": {
 		"build": "cross-env NODE_ENV=production babel './src/**/*.js' --out-dir './dist' --copy-files",
 		"lint": "eslint './**/*.js'",
