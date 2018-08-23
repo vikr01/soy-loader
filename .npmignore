@@ -1,4 +1,10 @@
-/dist
+.npmignore
+.editorconfig
+*.md
+*.markdown
+
+/src
+/exammples
 
 # Logs
 logs
