@@ -1,40 +1,46 @@
 {
-  "name": "soy-loader",
-  "version": "0.3.0",
-  "description": "soy (google closure) template loader for webpack",
-  "main": "index.js",
-  "scripts": {},
-  "repository": {
-    "type": "git",
-    "url": "https://bendman@github.com/bendman/soy-loader.git"
-  },
-  "keywords": [
-    "webpack",
-    "loader",
-    "template",
-    "soy",
-    "closure"
-  ],
-  "author": "Ben Duncan @bendman",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bendman/soy-loader/issues"
-  },
-  "homepage": "https://github.com/bendman/soy-loader",
-  "devDependencies": {
-    "node-libs-browser": "^0.5.0"
-  },
-  "peerDependencies": {
-    "exports-loader": "^0.6.2",
-    "webpack": "^1.9.5"
-  },
-  "dependencies": {
-    "bluebird": "^2.9.25",
-    "closure-templates": "^20141017.0.1",
-    "exports-loader": "^0.6.2",
-    "loader-utils": "^0.2.7",
-    "rimraf": "^2.3.4",
-    "soynode": "^0.7.5",
-    "webpack": "^1.9.5"
-  }
+	"name": "soy-loader",
+	"version": "0.3.0",
+	"description": "soy (google closure) template loader for webpack",
+	"main": "index.js",
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "https://bendman@github.com/bendman/soy-loader.git"
+	},
+	"keywords": [
+		"webpack",
+		"loader",
+		"template",
+		"soy",
+		"closure"
+	],
+	"author": "Ben Duncan @bendman",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/bendman/soy-loader/issues"
+	},
+	"homepage": "https://github.com/bendman/soy-loader",
+	"devDependencies": {
+		"@babel/cli": "^7.0.0-rc.2",
+		"@babel/preset-env": "^7.0.0-rc.2",
+		"eslint": "^5.0.0-rc.0",
+		"eslint-config-airbnb-base": "^13.1.0",
+		"husky": "^1.0.0-rc.13",
+		"lint-staged": "^7.2.2",
+		"mocha": "^5.2.0",
+		"node-libs-browser": "^0.5.0",
+		"prettier": "^1.14.2",
+		"webpack": "^4.17.1"
+	},
+	"peerDependencies": {
+		"exports-loader": "^0.6.2"
+	},
+	"dependencies": {
+		"closure-templates": "^20160825.0.0",
+		"exports-loader": "^0.6.2",
+		"loader-utils": "^0.2.7",
+		"rimraf": "^2.3.4",
+		"soynode": "^2.1.0"
+	}
 }
