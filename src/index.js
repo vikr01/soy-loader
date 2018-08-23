@@ -1,60 +1,59 @@
-var loaderUtils = require("loader-utils");
-var closureTemplates = require("closure-templates");
-var soynode = Promise.promisifyAll(require("soynode"));
-var fs = Promise.promisifyAll(require("fs"));
-var rimrafAsync = Promise.promisify(require("rimraf"));
-var path = require("path");
+const loaderUtils = require("loader-utils");
+const closureTemplates = require("closure-templates");
+const soynode = Promise.promisifyAll(require("soynode"));
+const fs = Promise.promisifyAll(require("fs"));
+const rimrafAsync = Promise.promisify(require("rimraf"));
+const path = require("path");
 
 // Automatic cleanup of temporary files.
 
 // Run the loader.
 module.exports = function(source) {
 	if (this.cacheable) this.cacheable();
-	var loaderCallback = this.async();
-	var query =
+	const loaderCallback = this.async();
+	const query =
 		this.query instanceof Object
 			? this.query
 			: loaderUtils.parseQuery(this.query);
-	var inputDir = query.inputDir
+	const inputDir = query.inputDir
 		? query.inputDir instanceof String
 			? query.inputDir
-			: "" + query.inputDir
+			: `${query.inputDir}`
 		: process.cwd();
-	var classpath = query.classpath
+	const classpath = query.classpath
 		? query.classpath instanceof Array
 			? query.classpath
 			: [query.classpath]
 		: [];
-	var pluginModules = query.pluginModules
+	const pluginModules = query.pluginModules
 		? query.pluginModules instanceof Array
 			? query.pluginModules
 			: [query.pluginModules]
 		: [];
 
 	// Get the configurable source of the soy runtime utilities, or use default.
-	var runtimeUtils = require.resolve(
+	let runtimeUtils = require.resolve(
 		query.utils || closureTemplates["soyutils.js"]
 	);
 	// Create a require statement to be injected into the templates for shimming.
-	runtimeUtils =
-		"require('exports-loader?goog,soy,soydata,soyshim!" + runtimeUtils + "')";
+	runtimeUtils = `require('exports-loader?goog,soy,soydata,soyshim!${runtimeUtils}')`;
 	runtimeUtils = runtimeUtils.replace(/\\/g, "\\\\");
 
 	this.addDependency(require.resolve(closureTemplates["soyutils.js"]));
 	soynode.setOptions({
-		inputDir: inputDir,
+		inputDir,
 		outputDir: "/",
 		uniqueDir: false,
 		eraseTemporaryFiles: false,
-		classpath: classpath,
-		pluginModules: pluginModules
+		classpath,
+		pluginModules
 	});
 
 	// Grab namespace for shimming encapsulated module return value.
-	var extracted = /\{namespace\s+((\w+)[^\s]*).*\}/.exec(source);
-	var namespace = extracted[1];
-	var baseVar = extracted[2];
-	var tempDir = path.resolve(
+	const extracted = /\{namespace\s+((\w+)[^\s]*).*\}/.exec(source);
+	const namespace = extracted[1];
+	const baseVar = extracted[2];
+	const tempDir = path.resolve(
 		__dirname,
 		[
 			"soytemp", // directory prefix
@@ -64,11 +63,11 @@ module.exports = function(source) {
 	);
 
 	// Compile the templates to a temporary directory for reading.
-	var compileContent = fs
+	const compileContent = fs
 		.mkdirAsync(tempDir)
 
 		// Get the temp directory path
-		.then(function() {
+		.then(() => {
 			dirPath = tempDir;
 			// Handle drive letters in windows environments (C:\)
 			if (dirPath.indexOf(":") !== -1) {
@@ -78,45 +77,45 @@ module.exports = function(source) {
 
 			// Write the raw source template into the temp directory
 		})
-		.then(function(soyPath) {
-			return fs.writeFileAsync(path.resolve(soyPath), source).return(soyPath);
+		.then(
+			soyPath =>
+				fs.writeFileAsync(path.resolve(soyPath), source).return(soyPath)
 
 			// Run the compiler on the raw template
-		})
-		.then(function(soyPath) {
-			return soynode.compileTemplateFilesAsync([soyPath]).return(soyPath);
+		)
+		.then(
+			soyPath => soynode.compileTemplateFilesAsync([soyPath]).return(soyPath)
 
 			// Read the newly compiled source
-		})
-		.then(function(soyPath) {
-			return fs.readFileAsync(path.resolve(soyPath) + ".js");
+		)
+		.then(
+			soyPath => fs.readFileAsync(`${path.resolve(soyPath)}.js`)
 
 			// Return utils and module return value, shimmed for module encapsulation.
-		})
-		.then(function(template) {
-			return loaderCallback(
-				null,
-				[
-					// Shims for encapsulating the soy runtime library. Normally these are exposed globally by
-					// including soyutils.js. Here we encapsulate them and require them in the template.
-					"var goog = " + runtimeUtils + ".goog;",
-					"var soy = " + runtimeUtils + ".soy;",
-					"var soydata = " + runtimeUtils + ".soydata;",
-					"var soyshim = " + runtimeUtils + ".soyshim;",
+		)
+		.then(
+			template =>
+				loaderCallback(
+					null,
+					[
+						// Shims for encapsulating the soy runtime library. Normally these are exposed globally by
+						// including soyutils.js. Here we encapsulate them and require them in the template.
+						`var goog = ${runtimeUtils}.goog;`,
+						`var soy = ${runtimeUtils}.soy;`,
+						`var soydata = ${runtimeUtils}.soydata;`,
+						`var soyshim = ${runtimeUtils}.soyshim;`,
 
-					// Shims for encapsulating the compiled template.
-					"var " + baseVar + ";",
-					template,
-					"module.exports = " + namespace + ";"
-				].join("\n")
-			);
+						// Shims for encapsulating the compiled template.
+						`var ${baseVar};`,
+						template,
+						`module.exports = ${namespace};`
+					].join("\n")
+				)
 			// Handle any errors
-		})
-		.catch(function(e) {
-			return loaderCallback(e);
+		)
+		.catch(
+			e => loaderCallback(e)
 			// Cleanup temp directory
-		})
-		.finally(function(template) {
-			return rimrafAsync(tempDir).return(template);
-		});
+		)
+		.finally(template => rimrafAsync(tempDir).return(template));
 };
