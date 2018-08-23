@@ -1,14 +1,14 @@
-const loaderUtils = require("loader-utils");
-const closureTemplates = require("closure-templates");
-const soynode = Promise.promisifyAll(require("soynode"));
-const fs = Promise.promisifyAll(require("fs"));
-const rimrafAsync = Promise.promisify(require("rimraf"));
-const path = require("path");
+import loaderUtils from 'loader-utils';
+import closureTemplates from 'closure-templates';
+import fs from 'fs';
+import path from 'path';
+import soynode from 'soynode';
+import rimrafAsync from 'rimraf';
 
 // Automatic cleanup of temporary files.
 
 // Run the loader.
-module.exports = function(source) {
+export default function(source) {
 	if (this.cacheable) this.cacheable();
 	const loaderCallback = this.async();
 	const query =
@@ -33,20 +33,20 @@ module.exports = function(source) {
 
 	// Get the configurable source of the soy runtime utilities, or use default.
 	let runtimeUtils = require.resolve(
-		query.utils || closureTemplates["soyutils.js"]
+		query.utils || closureTemplates['soyutils.js']
 	);
 	// Create a require statement to be injected into the templates for shimming.
 	runtimeUtils = `require('exports-loader?goog,soy,soydata,soyshim!${runtimeUtils}')`;
-	runtimeUtils = runtimeUtils.replace(/\\/g, "\\\\");
+	runtimeUtils = runtimeUtils.replace(/\\/g, '\\\\');
 
-	this.addDependency(require.resolve(closureTemplates["soyutils.js"]));
+	this.addDependency(require.resolve(closureTemplates['soyutils.js']));
 	soynode.setOptions({
 		inputDir,
-		outputDir: "/",
+		outputDir: '/',
 		uniqueDir: false,
 		eraseTemporaryFiles: false,
 		classpath,
-		pluginModules
+		pluginModules,
 	});
 
 	// Grab namespace for shimming encapsulated module return value.
@@ -56,10 +56,10 @@ module.exports = function(source) {
 	const tempDir = path.resolve(
 		__dirname,
 		[
-			"soytemp", // directory prefix
+			'soytemp', // directory prefix
 			Date.now(), // datestamp
-			(Math.random() * 0x100000000 + 1).toString(36) // randomized suffix
-		].join("-")
+			(Math.random() * 0x100000000 + 1).toString(36), // randomized suffix
+		].join('-')
 	);
 
 	// Compile the templates to a temporary directory for reading.
@@ -70,10 +70,10 @@ module.exports = function(source) {
 		.then(() => {
 			dirPath = tempDir;
 			// Handle drive letters in windows environments (C:\)
-			if (dirPath.indexOf(":") !== -1) {
-				dirPath = dirPath.split(":")[1];
+			if (dirPath.indexOf(':') !== -1) {
+				dirPath = dirPath.split(':')[1];
 			}
-			return path.join(dirPath, "source.soy");
+			return path.join(dirPath, 'source.soy');
 
 			// Write the raw source template into the temp directory
 		})
@@ -108,8 +108,8 @@ module.exports = function(source) {
 						// Shims for encapsulating the compiled template.
 						`var ${baseVar};`,
 						template,
-						`module.exports = ${namespace};`
-					].join("\n")
+						`module.exports = ${namespace};`,
+					].join('\n')
 				)
 			// Handle any errors
 		)
@@ -118,4 +118,4 @@ module.exports = function(source) {
 			// Cleanup temp directory
 		)
 		.finally(template => rimrafAsync(tempDir).return(template));
-};
+}
