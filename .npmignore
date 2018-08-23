@@ -1,5 +1,6 @@
 .npmignore
 .editorconfig
+.vscode
 *.md
 *.markdown
 
