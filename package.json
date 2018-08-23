@@ -15,6 +15,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production babel './src/**/*.js' --out-dir './dist' --copy-files",
+    "flow": "flow",
     "lint": "eslint './**/*.js'",
     "lint-fix": "yarn run lint --fix",
     "test": "yarn run lint && : #more tests go here"
