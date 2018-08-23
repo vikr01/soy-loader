@@ -1,6 +1,16 @@
+# NPM Ignore itself
 .npmignore
+
+# .*rc files
+.babelrc
+.eslintrc
+.prettierrc
+
+# Editors
 .editorconfig
 .vscode
+
+# Markdown
 *.md
 *.markdown
 
