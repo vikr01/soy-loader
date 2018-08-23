@@ -9,44 +9,66 @@ import rimrafAsync from 'rimraf';
 
 // Run the loader.
 export default function(source) {
-  if (this.cacheable) this.cacheable();
+  const { cacheable, query } = this;
+
+  if (cacheable) this.cacheable();
+
   const loaderCallback = this.async();
-  const query =
-		this.query instanceof Object
-		  ? this.query
-		  : loaderUtils.parseQuery(this.query);
-  const inputDir = query.inputDir
-    ? query.inputDir instanceof String
-      ? query.inputDir
-      : `${query.inputDir}`
-    : process.cwd();
-  const classpath = query.classpath
-    ? query.classpath instanceof Array
-      ? query.classpath
-      : [query.classpath]
-    : [];
-  const pluginModules = query.pluginModules
-    ? query.pluginModules instanceof Array
-      ? query.pluginModules
-      : [query.pluginModules]
-    : [];
+  const query2 =
+		query instanceof Object ? query : loaderUtils.parseQuery(this.query);
+
+  const { inputDir } = query2;
+
+  let inputDir2;
+
+  if (inputDir) {
+    inputDir2 = `${inputDir}`;
+  } else if (!inputDir) {
+    inputDir2 = process.cwd();
+  }
+
+  const { classpath } = query2;
+
+  let classpath2;
+
+  if (Array.isArray(classpath)) {
+    classpath2 = classpath;
+  } else if (classpath) {
+    classpath2 = [classpath];
+  } else {
+    classpath2 = [];
+  }
+
+  const { pluginModules } = query2;
+
+  let pluginModules2;
+
+  if (Array.isArray(classpath)) {
+    pluginModules2 = pluginModules;
+  } else if (classpath) {
+    pluginModules2 = [pluginModules];
+  } else {
+    pluginModules2 = [];
+  }
 
   // Get the configurable source of the soy runtime utilities, or use default.
-  let runtimeUtils = require.resolve(
-    query.utils || closureTemplates['soyutils.js']
+  const { utils } = query2;
+
+  const runtimeUtilsPath = require.resolve(
+    utils || closureTemplates['soyutils.js']
   );
   // Create a require statement to be injected into the templates for shimming.
-  runtimeUtils = `require('exports-loader?goog,soy,soydata,soyshim!${runtimeUtils}')`;
-  runtimeUtils = runtimeUtils.replace(/\\/g, '\\\\');
+  const runtimeUtilsStatement = `require('exports-loader?goog,soy,soydata,soyshim!${runtimeUtilsPath}')`;
+  const runtimeUtils = runtimeUtilsStatement.replace(/\\/g, '\\\\');
 
   this.addDependency(require.resolve(closureTemplates['soyutils.js']));
   soynode.setOptions({
-    inputDir,
+    inputDir: inputDir2,
     outputDir: '/',
     uniqueDir: false,
     eraseTemporaryFiles: false,
-    classpath,
-    pluginModules,
+    classpath: classpath2,
+    pluginModules: pluginModules2,
   });
 
   // Grab namespace for shimming encapsulated module return value.
@@ -63,8 +85,7 @@ export default function(source) {
   );
 
   // Compile the templates to a temporary directory for reading.
-  const compileContent = fs
-    .mkdirAsync(tempDir)
+  fs.mkdirAsync(tempDir)
 
   // Get the temp directory path
     .then(() => {
