@@ -1,7 +1,7 @@
 {
 	"ignore": ["node_modules"],
 	"presets": [
-		["@babel/preset-env", {"targets": {"node": 8}, "useBuiltIns": true}],
+		["@babel/preset-env", {"targets": {"node": 8}, "useBuiltIns": "usage"}],
 		"@babel/preset-flow"
 	],
 	"plugins": [
