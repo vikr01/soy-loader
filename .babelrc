@@ -1,7 +1,7 @@
 {
 	"ignore": ["node_modules"],
 	"presets": [
-		["@babel/preset-env", {"targets": {"node": 8}, "useBuiltIns": "usage"}],
+		["@babel/preset-env", { "targets": { "node": 8 }, "useBuiltIns": "usage" }],
 		"@babel/preset-flow"
 	],
 	"plugins": [
@@ -11,12 +11,12 @@
 	],
 	"env": {
 		"development": {
-			"plugins": [["flow-runtime", {"assert": false, "annotate": true}]]
+			"plugins": [["flow-runtime", { "assert": false, "annotate": true }]]
 		},
 
 		"production": {
 			"plugins": [
-				["transform-inline-environment-variables", {"include": ["NODE_ENV"]}],
+				["transform-inline-environment-variables", { "include": ["NODE_ENV"] }],
 				"minify-constant-folding",
 				"minify-guarded-expressions",
 				"minify-dead-code-elimination",
