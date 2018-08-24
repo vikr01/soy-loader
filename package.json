@@ -21,7 +21,7 @@
     "test": "yarn run lint && : #more tests go here"
   },
   "dependencies": {
-    "closure-templates": "^20160825.0.0",
+    "closure-templates": "^20141017.0.1",
     "exports-loader": "^0.6.2",
     "loader-utils": "^0.2.7",
     "rimraf": "^2.3.4",
