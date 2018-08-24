@@ -1,9 +1,10 @@
 var loaderUtils = require('loader-utils');
+var {promisify} = require('util');
 var closureTemplates = require('closure-templates');
 var Promise = require('bluebird');
 var soynode = Promise.promisifyAll(require('soynode'));
 var fs = Promise.promisifyAll(require('fs'));
-var rimrafAsync = Promise.promisify(require('rimraf'));
+var rimraf = promisify(require('rimraf'));
 var path = require('path');
 
 // Automatic cleanup of temporary files.
@@ -88,7 +89,6 @@ module.exports = function(source) {
 			return loaderCallback(e);
 		// Cleanup temp directory
 		}).finally(function(template) {
-			return rimrafAsync(tempDir).return(template);
-			
+			return rimraf(tempDir).then(()=>template);
 		});
 };
