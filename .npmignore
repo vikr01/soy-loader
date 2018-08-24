@@ -1,6 +1,9 @@
 # NPM Ignore itself
 .npmignore
 
+# yarn files
+.yarn*
+
 # .*rc files
 .babelrc
 .eslintrc
@@ -15,7 +18,7 @@
 *.markdown
 
 /src
-/exammples
+/examples
 
 # Logs
 logs
