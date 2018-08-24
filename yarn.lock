@@ -998,6 +998,10 @@ babel-helper-evaluate-path@^0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/babel-helper-evaluate-path/-/babel-helper-evaluate-path-0.4.3.tgz#0a89af702c06b217027fa371908dd4989d3e633f"
 
+babel-helper-evaluate-path@^0.5.0-alpha.3cc09dcf:
+  version "0.5.0-alpha.e9f96ffe"
+  resolved "https://registry.yarnpkg.com/babel-helper-evaluate-path/-/babel-helper-evaluate-path-0.5.0-alpha.e9f96ffe.tgz#5da27bfe87a830a7fad3676770e09d9e51a48104"
+
 babel-helper-flip-expressions@^0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/babel-helper-flip-expressions/-/babel-helper-flip-expressions-0.4.3.tgz#3696736a128ac18bc25254b5f40a22ceb3c1d3fd"
@@ -1038,11 +1042,11 @@ babel-plugin-flow-runtime@^0.17.0:
     camelcase "^3.0.0"
     flow-config-parser "^0.3.0"
 
-babel-plugin-minify-constant-folding@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-minify-constant-folding/-/babel-plugin-minify-constant-folding-0.4.3.tgz#300f9de8dda0844a176b193653960e24ad33e191"
+babel-plugin-minify-constant-folding@^0.5.0-alpha.3cc09dcf:
+  version "0.5.0-alpha.3cc09dcf"
+  resolved "https://registry.yarnpkg.com/babel-plugin-minify-constant-folding/-/babel-plugin-minify-constant-folding-0.5.0-alpha.3cc09dcf.tgz#325342c67a596bc38d579bc7358b9622f53308a2"
   dependencies:
-    babel-helper-evaluate-path "^0.4.3"
+    babel-helper-evaluate-path "^0.5.0-alpha.3cc09dcf"
 
 babel-plugin-minify-dead-code-elimination@^0.4.3:
   version "0.4.3"
