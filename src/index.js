@@ -9,6 +9,9 @@ import { promisify } from 'util';
 const mkdirAsync = promisify(fs.mkdir);
 const writeFileAsync = promisify(fs.writeFile);
 const readFileAsync = promisify(fs.readFile);
+const compileTemplateFilesAsync = promisify(soynode.compileTemplateFiles).bind(
+	soynode
+);
 
 // Automatic cleanup of temporary files.
 
@@ -19,14 +22,17 @@ export default async function(source) {
 	if (cacheable) this.cacheable();
 
 	const loaderCallback = this.async();
+
 	const query2 =
 		query instanceof Object ? query : loaderUtils.parseQuery(this.query);
+
+	console.log('query2 is ', query2);
 
 	const { inputDir } = query2;
 
 	let inputDir2;
 
-	if (inputDir) {
+	if (typeof inputDir === 'string' || inputDir) {
 		inputDir2 = `${inputDir}`;
 	} else if (!inputDir) {
 		inputDir2 = process.cwd();
@@ -106,7 +112,7 @@ export default async function(source) {
 
 		// Run the compiler on the raw template
 
-		soynode.compileTemplateFilesAsync([soyPath]);
+		await compileTemplateFilesAsync([soyPath]);
 
 		// Read the newly compiled source
 		template = await readFileAsync(`${path.resolve(soyPath)}.js`);
@@ -134,6 +140,6 @@ export default async function(source) {
 	}
 
 	if (template) {
-		rimraf(tempDir);
+		await promisify(rimraf)(tempDir);
 	}
 }
