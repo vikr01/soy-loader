@@ -28,8 +28,7 @@
     "soynode": "^2.1.0"
   },
   "peerDependencies": {
-    "exports-loader": "^0.6.2",
-    "webpack": "^4.0.0"
+    "exports-loader": "^0.6.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-rc.2",
