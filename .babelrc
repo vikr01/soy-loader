@@ -10,13 +10,8 @@
 		"@babel/plugin-proposal-object-rest-spread"
 	],
 	"env": {
-		"development": {
-			"plugins": [["flow-runtime", { "assert": false, "annotate": true }]]
-		},
-
 		"production": {
 			"plugins": [
-				["transform-inline-environment-variables", { "include": ["NODE_ENV"] }],
 				"minify-constant-folding",
 				"minify-guarded-expressions",
 				"minify-dead-code-elimination",
