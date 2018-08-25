@@ -12,6 +12,7 @@ const readFileAsync = promisify(fs.readFile);
 const compileTemplateFilesAsync = promisify(soynode.compileTemplateFiles).bind(
 	soynode
 );
+const rimrafAsync = promisify(rimraf);
 
 // Automatic cleanup of temporary files.
 
@@ -131,7 +132,7 @@ export default function(source) {
 		);
 
 		if (template) {
-			await promisify(rimraf)(tempDir);
+			await rimrafAsync(tempDir);
 		}
 	})().catch(err => loaderCallback(err));
 }
