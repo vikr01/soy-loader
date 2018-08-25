@@ -19,7 +19,7 @@ const compileTemplateFilesAsync = promisify(soynode.compileTemplateFiles).bind(
 export default function(source) {
 	const loaderCallback = this.async();
 
-	(async function load() {
+	(async () => {
 		const { cacheable, query } = this;
 
 		if (cacheable) this.cacheable();
