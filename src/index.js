@@ -83,8 +83,7 @@ export default function(source) {
 
 		// Grab namespace for shimming encapsulated module return value.
 		const extracted = /\{namespace\s+((\w+)[^\s]*).*\}/.exec(source);
-		const namespace = extracted[1];
-		const baseVar = extracted[2];
+		const [, namespace, baseVar] = extracted;
 		const tempDir = path.resolve(
 			__dirname,
 			[
