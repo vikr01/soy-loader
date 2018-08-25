@@ -18,6 +18,7 @@
     "flow": "flow",
     "lint": "eslint './**/*.js'",
     "lint-fix": "yarn run lint --fix",
+    "postlint-fix": "prettier --ignore-path .eslintignore --write './**/*.js'",
     "test": "yarn run lint && : #more tests go here"
   },
   "dependencies": {
