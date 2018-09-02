@@ -1,5 +1,7 @@
 # soy loader for webpack
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/vikr01/soy-loader.svg)](https://greenkeeper.io/)
+
 This is for compiling and loading Google Closure Templates (*.soy* files) into [webpack](http://webpack.github.io/docs/what-is-webpack.html) builds. The loader also shims compiled soy, which is normally revealed globally, and instead returns imported soy namespaces as a module to be consume by webpack.
 
 ## Installation
