@@ -40,7 +40,7 @@
     "@babel/preset-flow": "^7.0.0-rc.2",
     "@babel/register": "^7.0.0-rc.2",
     "babel-eslint": "^9.0.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-add-module-exports": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^2.0.0",
     "babel-plugin-minify-constant-folding": "^0.5.0-alpha.3cc09dcf",
     "babel-plugin-minify-dead-code-elimination": "^0.4.3",
