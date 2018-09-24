@@ -44,7 +44,7 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dynamic-import-node": "^2.0.0",
     "babel-plugin-minify-constant-folding": "^0.5.0-alpha.3cc09dcf",
-    "babel-plugin-minify-dead-code-elimination": "^0.4.3",
+    "babel-plugin-minify-dead-code-elimination": "^0.5.0",
     "babel-plugin-minify-guarded-expressions": "^0.4.3",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-plugin-transform-remove-debugger": "^6.9.4",
